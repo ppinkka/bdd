@@ -17,12 +17,9 @@ public class DevtoStepsDefinitions {
     @Before //wykonuje się przed każdym testem
     public void setup(){
         System.setProperty("webdriver.chrome.driver","src/main/resources/chromedriver.exe");
-    }
-    @Given("Chrome browser open")
-    public void chrome_browser_open() {
         driver = new ChromeDriver();
     }
-    @When("go to devto main page")
+    @Given("go to devto main page")
     public void go_to_devto_main_page() {
         driver.get("https://dev.to/");
     }
