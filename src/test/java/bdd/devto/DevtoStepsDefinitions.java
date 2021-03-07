@@ -12,8 +12,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.sql.Driver;
-
 public class DevtoStepsDefinitions {
 
     WebDriver driver;
@@ -65,11 +63,4 @@ public class DevtoStepsDefinitions {
         String podcastTitleText = podcastTitle.getText();
         Assert.assertEquals(firstPodcastTitle, podcastTitleText);
     }
-
-
-
-
-
-
-
 }
