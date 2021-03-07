@@ -6,11 +6,14 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import java.util.List;
+
 
 public class DevtoStepsDefinitions {
 
@@ -18,6 +21,7 @@ public class DevtoStepsDefinitions {
     WebDriverWait wait;
     String firstBlogTitle;
     String firstPodcastTitle;
+    String searchPhrase;
 
     @Before //wykonuje się przed każdym testem
     public void setup(){
@@ -63,4 +67,32 @@ public class DevtoStepsDefinitions {
         String podcastTitleText = podcastTitle.getText();
         Assert.assertEquals(firstPodcastTitle, podcastTitleText);
     }
-}
+
+    @When("I search for {string} phrase")
+    public void i_search_for_phrase(String phrase) {
+        WebElement searchbar = driver.findElement(By.name("q"));
+        searchbar.sendKeys(phrase);
+        searchPhrase = phrase.toLowerCase();
+        searchbar.sendKeys(Keys.ENTER); // Keys.RETURN to to samo
+    }
+    @Then("top {int} blogs found should have the keyword in title")
+    public void top_blogs_found_should_have_the_keyword_in_title(Integer int1) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("h3.crayons-story__title")));
+        wait.until(ExpectedConditions.attributeContains(By.id("substories"),"class","search-results-loaded"));
+        List<WebElement> allPosts = driver.findElements(By.className("crayons-story__body"));
+        if (allPosts.size()>=int1) {
+            for (int i=0; i<int1; i++) {
+                WebElement singlePost = allPosts.get(i);
+                WebElement singlePostTitle = singlePost.findElement(By.cssSelector(".crayons-story__title > a"));
+                String singlePostTitleText = singlePostTitle.getText().toLowerCase();
+                if (singlePostTitleText.contains(searchPhrase)) {
+                    Assert.assertTrue(singlePostTitleText.contains(searchPhrase));
+                } else {
+                    WebElement PostSnippet = singlePost.findElement(By.xpath("//div[contains(@class,'crayons-story__snippet')]"));
+                    String PostSnippetText = PostSnippet.getText().toLowerCase();
+                    Assert.assertTrue(PostSnippetText.contains(searchPhrase));
+                    }
+                }
+            }
+        }
+    }
