@@ -72,7 +72,7 @@ public class DevtoStepsDefinitions {
     public void i_search_for_phrase(String phrase) {
         WebElement searchbar = driver.findElement(By.name("q"));
         searchbar.sendKeys(phrase);
-        searchPhrase = phrase;
+        searchPhrase = phrase.toLowerCase();
         searchbar.sendKeys(Keys.ENTER); // Keys.RETURN to to samo
     }
     @Then("top {int} blogs found should have the keyword in title")
