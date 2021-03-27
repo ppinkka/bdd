@@ -12,6 +12,8 @@ public class MainPage {
 
     @FindBy(css = "h2.crayons-story__title > a")
     public WebElement firstBlog;
+    @FindBy(partialLinkText = "Podcasts")
+    public WebElement podcasts;
 
     // konstruktor "MainPage" - z dużej litery, tak samo jak klasa
     public MainPage(WebDriver driver){
@@ -23,5 +25,8 @@ public class MainPage {
     // wszystkie metody z małej litery, poza konstruktorem
     public void selectFirstBlog(){
         firstBlog.click();
+    }
+    public void selectPodcasts(){
+        podcasts.click();
     }
 }

@@ -1,7 +1,9 @@
 package bdd.devto;
 
 import bdd.devto.pages.MainPage;
+import bdd.devto.pages.PodcastListPage;
 import bdd.devto.pages.SingleBlogPage;
+import bdd.devto.pages.SinglePodcastPage;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
@@ -28,6 +30,8 @@ public class DevtoStepsDefinitions {
 
     MainPage mainPage;
     SingleBlogPage singleBlogPage;
+    PodcastListPage podcastListPage;
+    SinglePodcastPage singlePodcastPage;
 
     @Before //wykonuje się przed każdym testem
     public void setup(){
@@ -54,29 +58,28 @@ public class DevtoStepsDefinitions {
     }
     @When("I click on podcasts")
     public void i_click_on_podcasts() {
-        WebElement podcasts = driver.findElement(By.partialLinkText("Podcasts"));
-        podcasts.click();
+        mainPage.selectPodcasts();
     }
     @When("I click on first podcast displayed")
     public void i_click_on_first_podcast_displayed() {
         wait.until(ExpectedConditions.titleContains("Podcasts"));
-        WebElement firstPodcast = driver.findElement(By.tagName("h3"));
-        firstPodcastTitle = firstPodcast.getText();
+        podcastListPage = new PodcastListPage(driver);
+        firstPodcastTitle = podcastListPage.firstPodcast.getText();
         firstPodcastTitle = firstPodcastTitle.replace("podcast","");
-        firstPodcast.click();
+        podcastListPage.selectFirstPodcast();
     }
     @When("I play the first podcast")
     public void i_play_the_first_podcast() {
         wait.until(ExpectedConditions.titleContains(firstPodcastTitle));
-        WebElement playButton = driver.findElement(By.id("record"));
-        playButton.click();
+        singlePodcastPage = new SinglePodcastPage(driver);
+        singlePodcastPage.playPodcast();
     }
     @Then("the podcast should play")
     public void the_podcast_should_play() {
-        WebElement initializing = driver.findElement(By.className("status-message"));
-        wait.until(ExpectedConditions.invisibilityOf(initializing));
-        WebElement pauseBtn = driver.findElement(By.xpath("//img[contains(@class,'pause-butt')]"));
-        Boolean isPauseBtnVisible = pauseBtn.isDisplayed();
+//        WebElement initializing = driver.findElement(By.className("status-message"));
+        wait.until(ExpectedConditions.invisibilityOf(singlePodcastPage.initializing));
+//        WebElement pauseBtn = driver.findElement(By.xpath("//img[contains(@class,'pause-butt')]"));
+        Boolean isPauseBtnVisible = singlePodcastPage.pauseBtn.isDisplayed();
         Assert.assertTrue(isPauseBtnVisible);
     }
     @When("I search for {string} phrase")
