@@ -47,12 +47,11 @@ public class DevtoStepsDefinitions {
     @When("click on first blog displayed")
     public void click_on_first_blog_displayed() {
         firstBlogTitle = mainPage.firstBlog.getText();
-        mainPage.selectFirstBlog();
+        singleBlogPage = mainPage.selectFirstBlog();
     }
     @Then("should be redirected to blog page")
     public void should_be_redirected_to_blog_page() {
         wait.until(ExpectedConditions.titleContains(firstBlogTitle));
-        singleBlogPage = new SingleBlogPage(driver);
         String blogTitleText = singleBlogPage.blogTitle.getText();
         Assert.assertEquals(firstBlogTitle, blogTitleText);
     }

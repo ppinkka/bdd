@@ -23,9 +23,11 @@ public class MainPage {
     }
 
     // wszystkie metody z małej litery, poza konstruktorem
-    public void selectFirstBlog(){
+    public SingleBlogPage selectFirstBlog(){
         firstBlog.click();
+        return new SingleBlogPage(this.driver);
     }
+
     public void selectPodcasts(){
         podcasts.click();
     }
