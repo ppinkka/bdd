@@ -1,5 +1,6 @@
 package bdd.devto;
 
+import bdd.browser.Utills.BaseDriver;
 import bdd.devto.pages.MainPage;
 import bdd.devto.pages.PodcastListPage;
 import bdd.devto.pages.SingleBlogPage;
@@ -35,8 +36,7 @@ public class DevtoStepsDefinitions {
 
     @Before //wykonuje się przed każdym testem
     public void setup(){
-        System.setProperty("webdriver.chrome.driver","src/main/resources/chromedriver.exe");
-        driver = new ChromeDriver();
+        driver = BaseDriver.setHeadlessDriver();
         wait = new WebDriverWait(driver, 10);
     }
     @Given("go to devto main page")
