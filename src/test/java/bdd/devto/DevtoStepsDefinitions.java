@@ -76,9 +76,7 @@ public class DevtoStepsDefinitions {
     }
     @Then("the podcast should play")
     public void the_podcast_should_play() {
-//        WebElement initializing = driver.findElement(By.className("status-message"));
         wait.until(ExpectedConditions.invisibilityOf(singlePodcastPage.initializing));
-//        WebElement pauseBtn = driver.findElement(By.xpath("//img[contains(@class,'pause-butt')]"));
         Boolean isPauseBtnVisible = singlePodcastPage.pauseBtn.isDisplayed();
         Assert.assertTrue(isPauseBtnVisible);
     }
